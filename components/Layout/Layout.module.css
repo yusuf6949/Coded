@@ -1,0 +1,274 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.tabBar {
+  display: flex;
+  justify-content: space-around;
+  border-top-width: 1px;
+  border-top-style: solid;
+  width: 100%;
+  /* Dynamic height based on safe area */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background-color: var(--surface-color, #FFFFFF);
+}
+
+.tabItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 8px 0;
+  text-decoration: none;
+  min-width: 0; /* Allow shrinking below minimum content size */
+  position: relative; /* For active indicator */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  touch-action: manipulation;
+}
+
+.tabItem::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background-color: transparent;
+  transition: width 0.2s ease;
+}
+
+.tabItem.active::after {
+  width: 30%;
+  background-color: var(--primary-color, #3794FF);
+}
+
+.tabLabel {
+  font-size: 12px;
+  margin-top: 4px;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+  /* Dynamic font size scaling */
+  font-size: clamp(9px, 0.7rem, 12px);
+}
+
+.commandButtonContainer {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top, 12px));
+  right: max(12px, env(safe-area-inset-right, 12px));
+  z-index: 900;
+}
+
+.commandButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  min-width: 36px;
+  min-height: 36px;
+}
+
+.commandButton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.searchButtonContainer {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top, 12px));
+  right: 56px; /* Positioned next to the command button */
+  z-index: 900;
+}
+
+.searchButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  min-width: 36px;
+  min-height: 36px;
+}
+
+.searchButton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive styles for different device sizes */
+@media (min-width: 768px) {
+  /* Tablet and desktop */
+  .tabBar {
+    height: 60px;
+  }
+  
+  .tabItem {
+    padding: 8px 0;
+  }
+  
+  .tabLabel {
+    font-size: 12px;
+  }
+  
+  .commandButton, .searchButton {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Mobile devices */
+  .tabBar {
+    height: 56px;
+  }
+  
+  .tabItem {
+    padding: 6px 0;
+  }
+}
+
+/* Small mobile adjustments */
+@media (max-width: 374px) {
+  .tabBar {
+    height: 50px;
+  }
+  
+  .tabItem {
+    padding: 4px 0;
+  }
+  
+  .tabLabel {
+    font-size: 9px;
+    margin-top: 2px;
+  }
+  
+  .commandButton, .searchButton {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+  }
+}
+
+/* Ultra small screens */
+@media (max-width: 320px) {
+  .tabBar {
+    height: 46px;
+  }
+  
+  .tabItem {
+    padding: 3px 0;
+  }
+  
+  .tabLabel {
+    font-size: 8px;
+  }
+  
+  .commandButton, .searchButton {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .tabBar {
+    height: 44px;
+  }
+  
+  .tabLabel {
+    margin-top: 2px;
+    font-size: 10px;
+  }
+}
+
+/* Special handling for notched phones */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .container {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  
+  .tabBar {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    height: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+  
+  .commandButtonContainer {
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    right: calc(12px + env(safe-area-inset-right, 0px));
+  }
+  
+  .searchButtonContainer {
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    right: calc(56px + env(safe-area-inset-right, 0px));
+  }
+}
+
+/* High aspect ratio (tall) screens */
+@media (min-aspect-ratio: 2/3) and (max-aspect-ratio: 3/4) {
+  .tabBar {
+    height: 60px;
+  }
+}
+
+/* Wider screens optimization */
+@media (min-width: 1024px) {
+  .commandButtonContainer, .searchButtonContainer {
+    position: fixed;
+    top: 16px;
+  }
+  
+  .commandButton, .searchButton {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .tabBar {
+    max-width: 768px;
+    margin: 0 auto;
+    border-radius: 16px 16px 0 0;
+    border: 1px solid;
+    border-bottom: none;
+  }
+}
+
+/* Foldable devices */
+@media (max-width: 320px) and (max-height: 658px) {
+  .tabBar {
+    height: 45px;
+  }
+  
+  .tabItem {
+    padding: 2px 0;
+  }
+}
